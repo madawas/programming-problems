@@ -54,4 +54,14 @@ public class TreeNode {
         return null;
     }
 
+    public void inorder() {
+        if (this.left != null) {
+            this.left.inorder();
+        }
+        System.out.print(this.value + " ");
+        if (this.right != null) {
+            this.right.inorder();
+        }
+    }
+
 }

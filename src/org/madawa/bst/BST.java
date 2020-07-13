@@ -18,6 +18,64 @@ public class BST {
         }
     }
 
+    public void delete(int value) {
+        TreeNode current = this.root;
+        TreeNode parent = this.root;
+        boolean isLeftChild = false;
+
+        if (current == null)
+            return;
+
+        while(current != null && current.getValue() != value) {
+            parent = current;
+            if (value < current.getValue()) {
+                current = current.left;
+                isLeftChild = true;
+            } else {
+                current = current.getRight();
+                isLeftChild = false;
+            }
+        }
+
+        if (current == null) {
+            return;
+        }
+
+        if (current.getLeft() == null && current.getRight() == null) {
+            if (current == root) {
+                root = null;
+            } else {
+                if (isLeftChild) {
+                    parent.setLeft(null);
+                } else {
+                    parent.setRight(null);
+                }
+            }
+        } else if (current.getRight() == null) {
+            if (current == root) {
+                root = root.getLeft();
+            } else if (isLeftChild){
+                parent.setLeft(current.getLeft());
+            } else {
+                parent.setRight(current.getLeft());
+            }
+        } else if (current.getLeft() == null) {
+            if (current == root) {
+                root = root.getRight();
+            } else if (isLeftChild){
+                parent.setLeft(current.getRight());
+            } else {
+                parent.setRight(current.getRight());
+            }
+        }
+    }
+
+    public void inorder() {
+        if (this.root != null) {
+            this.root.inorder();
+        }
+    }
+
     public static void main(String[] args) {
         BST bst = new BST();
         bst.insert(6);
@@ -33,5 +91,7 @@ public class BST {
         } else {
             System.out.println(-1);
         }
+
+        bst.inorder();
     }
 }

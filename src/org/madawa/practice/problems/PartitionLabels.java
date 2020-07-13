@@ -28,7 +28,7 @@ public class PartitionLabels {
         while (start < len) {
             char temp = S.charAt(start);
             lIndex = S.lastIndexOf(temp);
-            // Find if there are any characters in the partition outside of the partition
+            // Find if there are any characters included outside of the selected partition
             // and adjust lastIndex if so
             for (int i = start; i <= lIndex; ++i) {
                 lIndex = Math.max(lIndex, S.lastIndexOf(S.charAt(i)));
