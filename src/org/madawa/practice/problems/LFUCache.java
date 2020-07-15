@@ -4,6 +4,7 @@ import org.madawa.util.LFUNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class LFUCache {
 
     public LFUCache(int capacity) {
         this.cache = new HashMap<>();
-        this.freq = new HashMap<>();
+        this.freq = new LinkedHashMap<>();
         this.capacity = capacity;
     }
 
@@ -63,7 +64,9 @@ public class LFUCache {
         } else {
             if (cache.size() >= capacity) {
                 List<Integer> keys = new ArrayList<>(freq.keySet());
-                remove(freq.get(keys.get(0)).get(0));
+                remove(freq.get(keys.get(0)).get(0)); //LFU item is the first entry as LHM keep the insertion order.
+                //Every time a object is accessed from the cache, we remove the key from frequency map and insert it again.
+                //Therefore frequently accessed objects will appear after least accessed objects.
             }
             node = new LFUNode(key, value);
             cache.put(key, node);
@@ -71,6 +74,12 @@ public class LFUCache {
         }
     }
 
+    /**
+     * Remove a key from the frequency map
+     *
+     * @param frequency frequency of the key to remove
+     * @param key key to remove
+     */
     private void removeFromFreq(int frequency, int key) {
         List<Integer> freqs = this.freq.get(frequency);
         freqs.remove(Integer.valueOf(key));
@@ -78,6 +87,12 @@ public class LFUCache {
             this.freq.remove(frequency);
     }
 
+    /**
+     * Add a key to the frequency map
+     *
+     * @param frequency frequency of the key to add
+     * @param key key to add
+     */
     private void addToFreq(int frequency, int key) {
         if (freq.containsKey(frequency)) {
             freq.get(frequency).add(key);
