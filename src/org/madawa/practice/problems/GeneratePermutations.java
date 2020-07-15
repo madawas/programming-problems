@@ -1,20 +1,14 @@
 package org.madawa.practice.problems;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+/*
+Heap's algorithm
+ */
 public class GeneratePermutations {
     public static List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList();
-        if (nums.length < 2) {
-            List<Integer> temp = new ArrayList<>();
-            for(int num: nums) {
-                temp.add(num);
-            }
-            result.add(temp);
-            return result;
-        }
         generatePermutations(nums, nums.length, result);
         return result;
     }
